@@ -26,6 +26,10 @@ connection();
 app.use("/auth", authRouter);
 app.use("/students", userrouter);
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the Student Management System API");
+});
+
 app.listen(process.env.PORT || 5000, () => {
   console.log("Server running");
 });
