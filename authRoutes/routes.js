@@ -37,11 +37,19 @@ router.post("/signup", async (req, res) => {
             { expiresIn: "7d" }
         );
 
+        // res.cookie("token", token, {
+        //     httpOnly: true,
+        //     secure: false,
+        //     sameSite: "lax",
+        // });
+
         res.cookie("token", token, {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax",
+            secure: true,
+            sameSite: "none",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
+
 
         res.status(201).json({ message: "Signup successful" });
     } catch (error) {
@@ -76,11 +84,19 @@ router.post("/login", async (req, res) => {
             { expiresIn: "7d" }
         );
 
+        // res.cookie("token", token, {
+        //     httpOnly: true,
+        //     secure: false,
+        //     sameSite: "lax",
+        // });
+
         res.cookie("token", token, {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax",
+            secure: true,
+            sameSite: "none",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
+
 
         res.json({ message: "Login successful" });
     } catch (error) {
@@ -112,9 +128,20 @@ router.get("/me", async (req, res) => {
 });
 
 
+// router.post("/logout", (req, res) => {
+//     res.clearCookie("token");
+//     res.json({ message: "Logout successful" });
+// });
+
 router.post("/logout", (req, res) => {
-    res.clearCookie("token");
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+    });
+
     res.json({ message: "Logout successful" });
 });
+
 
 module.exports = { authRouter: router };
